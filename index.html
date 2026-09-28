@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recebe Fácil - Gestão de NF-e e Títulos a Receber</title>
+    <meta name="description" content="Sistema completo para importação de XMLs de NF-e e geração automática de títulos financeiros e parcelas a receber com banco PostgreSQL e auditoria." />
+    <meta property="og:title" content="Recebe Fácil - Gestão de NF-e e Títulos a Receber" />
+    <meta property="og:description" content="Sistema completo para importação de XMLs de NF-e e geração automática de títulos financeiros e parcelas a receber com banco PostgreSQL e auditoria." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        // 1. Silencia erros de WebSocket/HMR no console.error e console.warn
+        var origConsoleError = console.error;
+        console.error = function() {
+          var msg = arguments[0] ? String(arguments[0]) : '';
+          if (msg.indexOf('[vite] failed to connect to websocket') !== -1 ||
+              msg.indexOf('WebSocket closed without opened') !== -1 ||
+              (msg.indexOf('WebSocket') !== -1 && msg.indexOf('closed') !== -1)) {
+            return;
+          }
+          origConsoleError.apply(console, arguments);
+        };
+
+        var origConsoleWarn = console.warn;
+        console.warn = function() {
+          var msg = arguments[0] ? String(arguments[0]) : '';
+          if (msg.indexOf('[vite]') !== -1 && msg.indexOf('websocket') !== -1) {
+            return;
+          }
+          origConsoleWarn.apply(console, arguments);
+        };
+
+        // 2. Intercepta unhandledrejection e error events de WebSocket
+        window.addEventListener('unhandledrejection', function(event) {
+          var reason = event.reason ? (event.reason.message || String(event.reason)) : '';
+          if (reason && (reason.indexOf('WebSocket') !== -1 || reason.indexOf('websocket') !== -1)) {
+            event.preventDefault();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+          }
+        }, true);
+
+        window.addEventListener('error', function(event) {
+          var message = event.message || '';
+          if (message && (message.indexOf('WebSocket') !== -1 || message.indexOf('websocket') !== -1)) {
+            event.preventDefault();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+          }
+        }, true);
+
+        // 3. Mock transparente do WebSocket para vite-hmr: evita falha de handshake no sandbox
+        if (typeof window.WebSocket !== 'undefined') {
+          var OriginalWS = window.WebSocket;
+          window.WebSocket = function(url, protocols) {
+            var isHmr = false;
+            if (protocols === 'vite-hmr' || (Array.isArray(protocols) && protocols.indexOf('vite-hmr') !== -1)) {
+              isHmr = true;
+            } else if (typeof url === 'string' && (url.indexOf('vite-hmr') !== -1 || url.indexOf('3000') !== -1)) {
+              isHmr = true;
+            }
+            if (isHmr) {
+              var target = new EventTarget();
+              target.readyState = 1; // WebSocket.OPEN
+              target.protocol = 'vite-hmr';
+              target.url = url;
+              target.send = function() {};
+              target.close = function() {};
+              target.binaryType = 'blob';
+              target.onopen = null;
+              target.onclose = null;
+              target.onerror = null;
+              target.onmessage = null;
+              setTimeout(function() {
+                var openEvt = new Event('open');
+                target.dispatchEvent(openEvt);
+                if (typeof target.onopen === 'function') target.onopen(openEvt);
+              }, 10);
+              return target;
+            }
+            return new OriginalWS(url, protocols);
+          };
+          window.WebSocket.prototype = OriginalWS.prototype;
+          window.WebSocket.CONNECTING = OriginalWS.CONNECTING;
+          window.WebSocket.OPEN = OriginalWS.OPEN;
+          window.WebSocket.CLOSING = OriginalWS.CLOSING;
+          window.WebSocket.CLOSED = OriginalWS.CLOSED;
+        }
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-900 text-slate-100 font-['Plus_Jakarta_Sans',sans-serif] antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

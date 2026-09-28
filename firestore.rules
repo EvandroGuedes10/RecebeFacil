@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default safety net: deny all by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Health check and connection test collection
+    match /test/{docId} {
+      allow read, write: if isValidId(docId);
+    }
+
+    // Cadastro de empresas
+    match /empresas/{empresaId} {
+      allow read, write: if isValidId(empresaId);
+    }
+
+    // Clientes
+    match /clientes/{clienteId} {
+      allow read, write: if isValidId(clienteId);
+    }
+
+    // Fornecedores
+    match /fornecedores/{fornecedorId} {
+      allow read, write: if isValidId(fornecedorId);
+    }
+
+    // Contas a Receber
+    match /parcelas_receber/{parcelaId} {
+      allow read, write: if isValidId(parcelaId);
+    }
+
+    // Contas a Pagar
+    match /contas_pagar/{contaId} {
+      allow read, write: if isValidId(contaId);
+    }
+
+    // Categorias Financeiras
+    match /categorias/{categoriaId} {
+      allow read, write: if isValidId(categoriaId);
+    }
+
+    // Logs de Auditoria
+    match /logs/{logId} {
+      allow read, write: if isValidId(logId);
+    }
+  }
+}

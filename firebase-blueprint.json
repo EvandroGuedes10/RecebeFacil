@@ -1,0 +1,156 @@
+{
+  "entities": {
+    "TestConnection": {
+      "title": "TestConnection",
+      "description": "Documento para validação e teste de conexão do Firestore",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status da conexão"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Data e hora do teste"
+        }
+      },
+      "required": ["status"]
+    },
+    "Empresa": {
+      "title": "Empresa",
+      "description": "Empresa titular do ERP",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "razao_social": { "type": "string" },
+        "cnpj": { "type": "string" },
+        "email": { "type": "string" },
+        "ativo": { "type": "boolean" },
+        "criado_em": { "type": "string" }
+      },
+      "required": ["razao_social", "cnpj"]
+    },
+    "Cliente": {
+      "title": "Cliente",
+      "description": "Clientes tomadores de serviços ou compradores",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "nome": { "type": "string" },
+        "cpf_cnpj": { "type": "string" },
+        "email": { "type": "string" },
+        "telefone": { "type": "string" },
+        "ativo": { "type": "boolean" }
+      },
+      "required": ["nome", "cpf_cnpj"]
+    },
+    "Fornecedor": {
+      "title": "Fornecedor",
+      "description": "Fornecedores e prestadores de serviços parceiros",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "nome": { "type": "string" },
+        "cpf_cnpj": { "type": "string" },
+        "email": { "type": "string" },
+        "telefone": { "type": "string" },
+        "ativo": { "type": "boolean" }
+      },
+      "required": ["nome", "cpf_cnpj"]
+    },
+    "ParcelaReceber": {
+      "title": "ParcelaReceber",
+      "description": "Títulos a receber originados de XML ou lançamentos manuais",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "cliente_nome": { "type": "string" },
+        "descricao": { "type": "string" },
+        "origem": { "type": "string", "enum": ["XML", "MANUAL"] },
+        "categoria": { "type": "string" },
+        "data_vencimento": { "type": "string" },
+        "valor_parcela": { "type": "number" },
+        "valor_recebido": { "type": "number" },
+        "status": { "type": "string", "enum": ["PENDENTE", "PAGO", "ATRASADO", "PARCIAL", "CANCELADO"] }
+      },
+      "required": ["descricao", "categoria", "data_vencimento", "valor_parcela", "status"]
+    },
+    "ContaPagar": {
+      "title": "ContaPagar",
+      "description": "Contas a pagar manuais e notas de entrada",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fornecedor_nome": { "type": "string" },
+        "descricao": { "type": "string" },
+        "centro_custo": { "type": "string" },
+        "origem": { "type": "string", "enum": ["XML", "MANUAL"] },
+        "categoria": { "type": "string" },
+        "data_vencimento": { "type": "string" },
+        "valor_parcela": { "type": "number" },
+        "valor_pago": { "type": "number" },
+        "status": { "type": "string", "enum": ["PENDENTE", "PAGO", "ATRASADO", "PARCIAL", "CANCELADO"] }
+      },
+      "required": ["descricao", "categoria", "data_vencimento", "valor_parcela", "status"]
+    },
+    "CategoriaFinanceira": {
+      "title": "CategoriaFinanceira",
+      "description": "Categorias de receitas e despesas",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "tipo": { "type": "string", "enum": ["RECEITA", "DESPESA"] },
+        "nome": { "type": "string" },
+        "padrao": { "type": "boolean" }
+      },
+      "required": ["tipo", "nome"]
+    },
+    "AuditoriaLog": {
+      "title": "AuditoriaLog",
+      "description": "Registro de eventos e trilha de auditoria",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "usuario_nome": { "type": "string" },
+        "acao": { "type": "string" },
+        "descricao": { "type": "string" },
+        "data_hora": { "type": "string" }
+      },
+      "required": ["acao", "descricao"]
+    }
+  },
+  "firestore": {
+    "/test/{docId}": {
+      "schema": "TestConnection",
+      "description": "Documentos para validação da conectividade do Firestore"
+    },
+    "/empresas/{empresaId}": {
+      "schema": "Empresa",
+      "description": "Coleção de empresas"
+    },
+    "/clientes/{clienteId}": {
+      "schema": "Cliente",
+      "description": "Coleção de clientes cadastrados"
+    },
+    "/fornecedores/{fornecedorId}": {
+      "schema": "Fornecedor",
+      "description": "Coleção de fornecedores parceiros"
+    },
+    "/parcelas_receber/{parcelaId}": {
+      "schema": "ParcelaReceber",
+      "description": "Coleção de parcelas e títulos a receber"
+    },
+    "/contas_pagar/{contaId}": {
+      "schema": "ContaPagar",
+      "description": "Coleção de duplicatas e contas a pagar"
+    },
+    "/categorias/{categoriaId}": {
+      "schema": "CategoriaFinanceira",
+      "description": "Coleção de categorias financeiras personalizadas"
+    },
+    "/logs/{logId}": {
+      "schema": "AuditoriaLog",
+      "description": "Coleção de logs de auditoria do sistema"
+    }
+  }
+}

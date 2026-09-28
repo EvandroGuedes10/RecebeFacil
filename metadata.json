@@ -1,0 +1,6 @@
+{
+  "name": "Recebe Fácil - Gestão de NF-e e Títulos a Receber",
+  "description": "Sistema completo para importação de XMLs de NF-e e geração automática de títulos financeiros e parcelas a receber com banco PostgreSQL e auditoria.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
